@@ -1,15 +1,7 @@
 import test from 'ava'
 import pluralize from 'numd'
 import createTranslate from './src'
-
-const translation = {
-  foo: 'foofoo',
-  bar: {
-    foo: 'barbar',
-    baz: 'bazbaz $1',
-    foobar: 'foobar foo $1 (pluralize $2|foo|foos)'
-  }
-}
+import translation from './fixture'
 
 const translate = createTranslate(translation, {pluralize})
 
