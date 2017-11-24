@@ -1,6 +1,6 @@
 {
   "name": "translate-text",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Translate function with templates precompiling and helpers",
   "main": "commonjs",
   "module": "es",
