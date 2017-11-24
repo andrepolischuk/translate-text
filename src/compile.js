@@ -1,4 +1,4 @@
-const paramRegExp = /((?:\(\w+\s)?\$\d+(?:[^()]+\))?)/g
+const paramRegExp = /((?:\(\w+[^()]+)?\$\d+(?:[^()]*\))?)/g
 const functionRegExp = /\((\w+)\s(.+)\)/
 
 export default function compile (translation, helpers) {
