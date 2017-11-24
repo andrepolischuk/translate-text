@@ -5,12 +5,11 @@ const getIndex = decl => Number(decl.substring(1)) - 1
 
 export default function compile (translation, fns) {
   if (Object.prototype.toString.call(translation) === '[object Object]') {
-    return Object
-      .keys(translation)
-      .reduce((acc, key) => ({
-        ...acc,
-        [key]: compile(translation[key], fns)
-      }), {})
+    for (const key in translation) {
+      translation[key] = compile(translation[key], fns)
+    }
+
+    return translation
   }
 
   if (typeof translation !== 'string' || paramRegExp.test(translation) === false) {
