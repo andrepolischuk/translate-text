@@ -20,7 +20,7 @@ export default function createTranslate (translation, helpers = {}) {
       return key
     }
 
-    const translated = translate(...args)
+    const translated = translate(args)
 
     if (args.length === 0) {
       cache[key] = translated

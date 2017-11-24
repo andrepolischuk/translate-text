@@ -1,8 +1,6 @@
 const paramRegExp = /((?:\(\w+\s)?\$\d+(?:[^()]+\))?)/g
 const functionRegExp = /\((\w+)\s(.+)\)/
 
-const getIndex = decl => Number(decl.substring(1)) - 1
-
 export default function compile (translation, helpers) {
   if (Object.prototype.toString.call(translation) === '[object Object]') {
     for (const key in translation) {
@@ -26,18 +24,25 @@ export default function compile (translation, helpers) {
       }
 
       if (paramIndex === 0) {
-        return args => args[getIndex(decl)]
+        return params => params[decl]
       }
 
       const options = decl.match(functionRegExp)
       const fn = helpers[options[1]]
+      const args = options[2].split(/\|/g)
 
-      const [index, ...params] = options[2]
-        .split(/\|/g)
-        .map((d, i) => i === 0 ? getIndex(d) : d)
-
-      return args => fn(args[index], ...params)
+      return params => fn(...args.map(a => params[a] || a))
     })
 
-  return (...args) => instructions.reduce((acc, decl) => acc + decl(args), '')
+  return args => {
+    const params = {}
+
+    if (args.length > 0) {
+      for (let i = 0; i < args.length; i++) {
+        params[`$${i + 1}`] = args[i]
+      }
+    }
+
+    return instructions.reduce((acc, decl) => acc + decl(params), '')
+  }
 }
