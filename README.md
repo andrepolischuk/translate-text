@@ -61,9 +61,15 @@ Type: `...any`
 
 Arguments to insert into the template.
 
+## Related
+
+* [react-translate-text][react-translate-text] — React higher-order component for text translation
+
 ## License
 
 MIT
 
 [travis-url]: https://travis-ci.org/andrepolischuk/translate-text
 [travis-image]: https://travis-ci.org/andrepolischuk/translate-text.svg?branch=master
+
+[react-translate-text]: https://github.com/andrepolischuk/react-translate-text
