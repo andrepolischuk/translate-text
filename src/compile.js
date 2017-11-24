@@ -3,10 +3,10 @@ const functionRegExp = /\((\w+)\s(.+)\)/
 
 const getIndex = decl => Number(decl.substring(1)) - 1
 
-export default function compile (translation, fns) {
+export default function compile (translation, helpers) {
   if (Object.prototype.toString.call(translation) === '[object Object]') {
     for (const key in translation) {
-      translation[key] = compile(translation[key], fns)
+      translation[key] = compile(translation[key], helpers)
     }
 
     return translation
@@ -30,7 +30,7 @@ export default function compile (translation, fns) {
       }
 
       const options = decl.match(functionRegExp)
-      const fn = fns[options[1]]
+      const fn = helpers[options[1]]
 
       const [index, ...params] = options[2]
         .split(/\|/g)

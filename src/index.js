@@ -1,9 +1,9 @@
 import {get} from 'dot-prop'
 import compile from './compile'
 
-export default function createTranslate (translation, fns = {}) {
+export default function createTranslate (translation, helpers = {}) {
   const cache = {}
-  const compiled = compile(translation, fns)
+  const compiled = compile(translation, helpers)
 
   return (key, ...args) => {
     if (cache[key] != null && args.length === 0) {

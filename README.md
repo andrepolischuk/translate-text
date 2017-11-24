@@ -31,7 +31,7 @@ translate('more.age', 25) // I'm a 25 years old
 
 ## API
 
-### createTranslate(translation[, fns])
+### createTranslate(translation[, helpers])
 
 Compile templates and return translate function.
 
@@ -41,7 +41,7 @@ Type: `object`
 
 Translation templates.
 
-#### fns
+#### helpers
 
 Type: `object`
 
