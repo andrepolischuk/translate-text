@@ -20,7 +20,7 @@ export default function compile (translation, fns) {
   const instructions = translation
     .split(paramRegExp)
     .map(decl => {
-      const paramIndex = decl.indexOf('$')
+      const paramIndex = decl.search(/\$\d+/)
 
       if (paramIndex === -1) {
         return () => decl
