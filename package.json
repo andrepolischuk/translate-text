@@ -13,6 +13,7 @@
   "scripts": {
     "test": "standard && cross-env BABEL_ENV=commonjs ava",
     "bench": "cross-env BABEL_ENV=commonjs babel-node bench.js",
+    "size": "npm run build:commonjs && size-limit",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir commonjs",
     "prepublish": "npm run build:es && npm run build:commonjs",
@@ -49,6 +50,7 @@
     "cross-env": "^5.0.1",
     "numd": "^3.0.4",
     "rimraf": "^2.5.2",
+    "size-limit": "^0.13.2",
     "standard": "^10.0.2"
   },
   "babel": {
@@ -79,5 +81,11 @@
   },
   "ava": {
     "require": "babel-register"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "./commonjs/index.js",
+      "limit": "1 KB"
+    }
+  ]
 }
