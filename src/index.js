@@ -1,16 +1,31 @@
-import get from 'lodash.get'
+import {get} from 'dot-prop'
 import compile from './compile'
 
 export default function createTranslate (translation, fns = {}) {
-  const compiledTranslation = compile(translation, fns)
+  const cache = {}
+  const compiled = compile(translation, fns)
 
   return (key, ...args) => {
-    const translate = get(compiledTranslation, key)
-
-    if (typeof translate === 'function') {
-      return translate(...args)
+    if (cache[key] != null && args.length === 0) {
+      return cache[key]
     }
 
-    return key
+    if (cache[key] == null) {
+      cache[key] = get(compiled, key)
+    }
+
+    const translate = cache[key]
+
+    if (typeof translate !== 'function') {
+      return key
+    }
+
+    const translated = translate(...args)
+
+    if (args.length === 0) {
+      cache[key] = translated
+    }
+
+    return translated
   }
 }
