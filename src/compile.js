@@ -3,11 +3,13 @@ const functionRegExp = /\((\w+)\s(.+)\)/
 
 export default function compile (translation, helpers) {
   if (Object.prototype.toString.call(translation) === '[object Object]') {
+    const compiled = {}
+
     for (const key in translation) {
-      translation[key] = compile(translation[key], helpers)
+      compiled[key] = compile(translation[key], helpers)
     }
 
-    return translation
+    return compiled
   }
 
   if (typeof translation !== 'string' || paramRegExp.test(translation) === false) {
