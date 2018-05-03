@@ -2,7 +2,11 @@ const paramRegExp = /((?:\(\w+[^()]+)?\$\d+(?:[^()]*\))?)/g
 const functionRegExp = /\((\w+)\s(.+)\)/
 
 export default function compile (translation, helpers) {
-  if (Object.prototype.toString.call(translation) === '[object Object]') {
+  const nestedTranslation =
+    Array.isArray(translation) ||
+    Object.prototype.toString.call(translation) === '[object Object]'
+
+  if (nestedTranslation) {
     const compiled = {}
 
     for (const key in translation) {
@@ -12,7 +16,11 @@ export default function compile (translation, helpers) {
     return compiled
   }
 
-  if (typeof translation !== 'string' || paramRegExp.test(translation) === false) {
+  const compilationIsNotNeeded =
+    typeof translation !== 'string' ||
+    paramRegExp.test(translation) === false
+
+  if (compilationIsNotNeeded) {
     return () => translation
   }
 

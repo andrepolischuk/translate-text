@@ -16,16 +16,19 @@ new Benchmark.Suite()
 
 new Benchmark.Suite()
   .add('base translate', () => {
-    translate('foo')
+    translate('string')
   })
   .add('nested translate', () => {
-    translate('bar.foo')
+    translate('nested.string')
+  })
+  .add('array translate', () => {
+    translate('array.0')
   })
   .add('translate with param', () => {
-    translate('bar.baz', 'foo')
+    translate('nested.param', 'param')
   })
   .add('translate with function', () => {
-    translate('bar.foobar', 'bar', 2)
+    translate('nested.complex', 'param', 2)
   })
   .on('cycle', event => {
     console.log(String(event.target))
