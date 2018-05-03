@@ -18,7 +18,7 @@ export default function compile (translation, helpers) {
 
   const compilationIsNotNeeded =
     typeof translation !== 'string' ||
-    paramRegExp.test(translation) === false
+    translation.match(paramRegExp) === null
 
   if (compilationIsNotNeeded) {
     return () => translation
