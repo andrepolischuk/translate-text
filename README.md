@@ -19,7 +19,8 @@ const translation = {
   echo: 'You say: $1',
   more: {
     age: 'I\'m a (pluralize $1|year|years) old'
-  }
+  },
+  greeting: 'I\m $name and I\'m (pluralize $age|year|years) old'
 }
 
 const translate = createTranslate(translation, {pluralize})
@@ -27,6 +28,10 @@ const translate = createTranslate(translation, {pluralize})
 translate('hello') // Hello
 translate('echo', 'Foo') // You say: Foo
 translate('more.age', 25) // I'm a 25 years old
+translate('greeting', {
+  name: 'John Smith',
+  age: 25
+}) // I'm John Smith and I'm 25 years old
 ```
 
 ## API

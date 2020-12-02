@@ -1,10 +1,11 @@
-const paramRegExp = /((?:\(\w+[^()]+)?\$\d+(?:[^()]*\))?)/g
+const paramRegExp = /((?:\(\w+[^()]+)?\$\w+(?:[^()]*\))?)/g
 const functionRegExp = /\((\w+)\s(.+)\)/
+
+const isObject = (value) => Object.prototype.toString.call(value) === '[object Object]'
 
 export default function compile (translation, helpers) {
   const nestedTranslation =
-    Array.isArray(translation) ||
-    Object.prototype.toString.call(translation) === '[object Object]'
+    Array.isArray(translation) || isObject(translation)
 
   if (nestedTranslation) {
     const compiled = {}
@@ -27,7 +28,7 @@ export default function compile (translation, helpers) {
   const instructions = translation
     .split(paramRegExp)
     .map(decl => {
-      const paramIndex = decl.search(/\$\d+/)
+      const paramIndex = decl.search(/\$\w+/)
 
       if (paramIndex === -1) {
         return () => decl
@@ -47,7 +48,11 @@ export default function compile (translation, helpers) {
   return args => {
     const params = {}
 
-    if (args.length > 0) {
+    if (args.length === 1 && isObject(args[0])) {
+      Object.keys(args[0]).forEach(key => {
+        params[`$${key}`] = args[0][key]
+      })
+    } else if (args.length > 0) {
       for (let i = 0; i < args.length; i++) {
         params[`$${i + 1}`] = args[i]
       }
