@@ -49,9 +49,11 @@ export default function compile (translation, helpers) {
     const params = {}
 
     if (args.length === 1 && isObject(args[0])) {
-      Object.keys(args[0]).forEach(key => {
-        params[`$${key}`] = args[0][key]
-      })
+      for (const key in args[0]) {
+        if (args[0].hasOwnProperty(key)) {
+          params[`$${key}`] = args[0][key]
+        }
+      }
     } else if (args.length > 0) {
       for (let i = 0; i < args.length; i++) {
         params[`$${i + 1}`] = args[i]
