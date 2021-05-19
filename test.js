@@ -17,8 +17,10 @@ test('nested', t => {
   t.is(translate('nested.complex', 'param', 2), 'nested param and function with 2 values')
   t.is(translate('nested.object', {
     value: 'some string as value',
-    option: 2
-  }), 'nested object with some string as value and extra 2 options')
+    nested: {
+      option: 2
+    }
+  }), 'nested object with some string as value and nested 2 options')
 })
 
 test('array', t => {

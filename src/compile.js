@@ -1,7 +1,21 @@
-const paramRegExp = /((?:\(\w+[^()]+)?\$\w+(?:[^()]*\))?)/g
+const paramRegExp = /((?:\(\w+[^()]+)?\$[\w.]+(?:[^()]*\))?)/g
 const functionRegExp = /\((\w+)\s(.+)\)/
 
 const isObject = (value) => Object.prototype.toString.call(value) === '[object Object]'
+
+const flatParams = (source, target, path) => {
+  for (const key in source) {
+    if (source.hasOwnProperty(key)) {
+      const nextPath = path ? `${path}.${key}` : `$${key}`
+      const value = source[key]
+      if (Array.isArray(value) || isObject(value)) {
+        flatParams(value, target, nextPath)
+      } else {
+        target[nextPath] = value
+      }
+    }
+  }
+}
 
 export default function compile (translation, helpers) {
   const nestedTranslation =
@@ -48,12 +62,8 @@ export default function compile (translation, helpers) {
   return args => {
     const params = {}
 
-    if (args.length === 1 && isObject(args[0])) {
-      for (const key in args[0]) {
-        if (args[0].hasOwnProperty(key)) {
-          params[`$${key}`] = args[0][key]
-        }
-      }
+    if (args.length === 1 && (Array.isArray(args[0]) || isObject(args[0]))) {
+      flatParams(args[0], params)
     } else if (args.length > 0) {
       for (let i = 0; i < args.length; i++) {
         params[`$${i + 1}`] = args[i]

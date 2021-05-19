@@ -5,7 +5,7 @@
     "param": "nested $1",
     "function": "nested function with (echo $1)",
     "complex": "nested $1 and function with (pluralize $2|value|values)",
-    "object": "nested object with $value and extra (pluralize $option|option|options)"
+    "object": "nested object with $value and nested (pluralize $nested.option|option|options)"
   },
   "array": [
     "string",
